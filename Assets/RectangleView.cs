@@ -4,20 +4,34 @@ using UnityEngine;
 
 public class RectangleView : MonoBehaviour {
    public SpriteRenderer renderer;
-    
+    public bool isDragging;
+    private Vector3 handleToOrVector;
 
-	void Start () {
+    void Start () {
         renderer = GetComponent<SpriteRenderer>();
         renderer.color = Random.ColorHSV();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        
-        if (Input.GetMouseButtonDown(0))
-        {
+
+
+
+    void OnMouseDown()
+    {
+        handleToOrVector = transform.root.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        isDragging = true;
             renderer.color =Random.ColorHSV();
-        }
+        
 	}
+
+    void OnMouseDrag()
+    {
+        transform.root.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + handleToOrVector;
+    }
+
+    void OnMouseUp()
+    {
+        isDragging = false;
+    }
+
+
 
 }
