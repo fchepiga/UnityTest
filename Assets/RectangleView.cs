@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(BoxCollider2D))]
 public class RectangleView : MonoBehaviour {
    public SpriteRenderer renderer;
-    public bool isDragging;
-    private Vector3 handleToOrVector;
-
+    public Vector3 screenPoint;
+    public Vector3 offset;
     void Start () {
         renderer = GetComponent<SpriteRenderer>();
         renderer.color = Random.ColorHSV();
@@ -16,20 +15,24 @@ public class RectangleView : MonoBehaviour {
 
     void OnMouseDown()
     {
-        handleToOrVector = transform.root.position - Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        isDragging = true;
-            renderer.color =Random.ColorHSV();
+        offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+        
         
 	}
 
     void OnMouseDrag()
     {
-        transform.root.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + handleToOrVector;
+        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
+        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+        transform.position = curPosition;
+
     }
 
-    void OnMouseUp()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        isDragging = false;
+        Debug.Log("Crah");
+
+        
     }
 
 
