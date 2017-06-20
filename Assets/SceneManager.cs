@@ -10,6 +10,8 @@ public class SceneManager : MonoBehaviour {
 
     private bool wasDoubleClick;
 
+    public bool block;
+
     public static SceneManager Instance { get { if (instance == null) instance = FindObjectOfType<SceneManager>(); return instance; } }
     private static SceneManager instance;
 
@@ -30,7 +32,6 @@ public class SceneManager : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0)) // если нажата левая кнопка мыши
         {
-
             float timeDelta = Time.time - lastClickTime;
             if (timeDelta < doubleClickTime) // если происходит двойной клик 
             {
