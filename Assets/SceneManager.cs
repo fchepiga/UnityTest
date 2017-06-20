@@ -10,16 +10,27 @@ public class SceneManager : MonoBehaviour {
 
     private bool wasDoubleClick;
 
+    public static SceneManager Instance { get { if (instance == null) instance = FindObjectOfType<SceneManager>(); return instance; } }
+    private static SceneManager instance;
+
+    void Awake()
+    {
+        instance = this; //Это ты при эвейке скрипта сразу назначаешь его твоей переменной
+    }
+
+
+    public static GameObject Rectangle;
+
     void Start() {
         
     }
 
     void Update()
     {
-        
+
         if (Input.GetMouseButtonDown(0)) // если нажата левая кнопка мыши
         {
-            
+
             float timeDelta = Time.time - lastClickTime;
             if (timeDelta < doubleClickTime) // если происходит двойной клик 
             {
@@ -32,7 +43,7 @@ public class SceneManager : MonoBehaviour {
                 wasDoubleClick = false;
                 lastClickTime = Time.time;
             }
-           
+
             posOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             var gO = Physics2D.Raycast(posOrigin, Vector3.forward, 100);
             if (gO) //если луч встретил коллайдер
@@ -43,14 +54,16 @@ public class SceneManager : MonoBehaviour {
             }
             else
             {
+
                 var targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 targetPos = new Vector3(targetPos.x, targetPos.y, 1f);
-                GameObject Rectangle = Instantiate(RectangleSpawn, targetPos, Quaternion.identity);
+                Rectangle = Instantiate(RectangleSpawn, targetPos, Quaternion.identity);
                 Debug.Log("Rectangle pos: " + Rectangle.transform.position);
 
             }
-        }
+            
 
+        }
     }
 
    }

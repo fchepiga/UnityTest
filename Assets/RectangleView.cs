@@ -6,6 +6,8 @@ public class RectangleView : MonoBehaviour {
    public SpriteRenderer renderer;
     public Vector3 screenPoint;
     public Vector3 offset;
+    bool createdNow = true;
+
     void Start () {
         renderer = GetComponent<SpriteRenderer>();
         renderer.color = Random.ColorHSV();
@@ -22,19 +24,27 @@ public class RectangleView : MonoBehaviour {
 
     void OnMouseDrag()
     {
+        createdNow = false;   
         Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
         Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
         transform.position = curPosition;
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Crah");
-
-        
+        if (createdNow == false)
+        {
+            Debug.Log("Crah");
+        }            
+        if (createdNow && gameObject == SceneManager.Rectangle)
+        {
+            Debug.Log("CrahandDestroy");
+            Destroy(gameObject);
+        }
     }
 
 
 
 }
+
