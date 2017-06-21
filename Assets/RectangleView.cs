@@ -7,6 +7,7 @@ public class RectangleView : MonoBehaviour {
     public Vector3 screenPoint;
     public Vector3 offset;
     public Vector3 prePosition;
+    public Vector3 curPosition;
     bool createdNow = true;
 
     public bool block;
@@ -20,42 +21,37 @@ public class RectangleView : MonoBehaviour {
     {
         block = false;
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-            
-	}
+       
+    }
 
     void OnMouseDrag()
     {
-        if (block)
-            return;
-
+        if (block) return;
         createdNow = false;   
         Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
-        Vector3 prePosition = curPosition;
-
+        curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+        prePosition = gameObject.transform.position;
         transform.position = curPosition;
 
     }
+     
 
     private void OnCollisionEnter2D (Collision2D collision)
     {
         if (createdNow == false)
         {
-            
+            transform.position = prePosition;
+            //Debug.Log("pos"+prePosition);позиция отката
             block = true;
-            Debug.Log("Crah");
+           // Debug.Log("Crah");столкновение объектов
         }            
         if (createdNow && gameObject == SceneManager.Rectangle)
         {
-            Debug.Log("CrahandDestroy");
+            //Debug.Log("CrahandDestroy");уничтожение если нет места для объекта
             Destroy(gameObject);
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        Debug.Log("Crah2");
-        block = false;
-    }
+
 }
 

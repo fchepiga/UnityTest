@@ -10,18 +10,15 @@ public class SceneManager : MonoBehaviour {
 
     private bool wasDoubleClick;
 
-    public bool block;
-
     public static SceneManager Instance { get { if (instance == null) instance = FindObjectOfType<SceneManager>(); return instance; } }
     private static SceneManager instance;
-
+    
     void Awake()
     {
-        instance = this; //Это ты при эвейке скрипта сразу назначаешь его твоей переменной
+        instance = this; //Это  при эвейке скрипта сразу будет моей переменной
     }
-
-
     public static GameObject Rectangle;
+   
 
     void Start() {
         
@@ -32,6 +29,7 @@ public class SceneManager : MonoBehaviour {
 
         if (Input.GetMouseButtonDown(0)) // если нажата левая кнопка мыши
         {
+            
             float timeDelta = Time.time - lastClickTime;
             if (timeDelta < doubleClickTime) // если происходит двойной клик 
             {
