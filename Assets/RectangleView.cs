@@ -24,6 +24,10 @@ public class RectangleView : MonoBehaviour {
        
     }
 
+
+
+
+
     void OnMouseDrag()
     {
         if (block) return;
