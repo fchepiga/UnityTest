@@ -9,9 +9,12 @@ public class RectangleView : MonoBehaviour {
     public Vector3 prePosition;
     public Vector3 curPosition;
     bool createdNow = true;
-
+    bool CreateLine;
+    RaycastHit2D gO;
+    Vector3 posOrigin;
+    LineRenderer lineRenderer;
     public bool block;
-
+    List<Transform> listOfRectangles = new List<Transform>();
     void Start () {
         renderer = GetComponent<SpriteRenderer>();
         renderer.color = Random.ColorHSV();
@@ -21,11 +24,8 @@ public class RectangleView : MonoBehaviour {
     {
         block = false;
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-       
+     
     }
-
-
-
 
 
     void OnMouseDrag()
