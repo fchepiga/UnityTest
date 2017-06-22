@@ -15,7 +15,7 @@ public class SceneManager : MonoBehaviour
     public static SceneManager Instance { get { if (instance == null) instance = FindObjectOfType<SceneManager>(); return instance; } }
     private static SceneManager instance;
     public static GameObject Rectangle;
-    List<Transform> ListClick = new List<Transform>();
+    List<GameObject> ListClick = new List<GameObject>();
 
     void Awake()
     {
@@ -42,10 +42,10 @@ public class SceneManager : MonoBehaviour
 
                 Debug.Log("name of obj: " + gO.transform.name);
                 Debug.Log("HIT");
-                ListClick.Add(gO.transform);
+                ListClick.Add(gO.transform.gameObject);
 
                 Debug.Log("Creetline: " + Creetline);
-                if (Creetline) CreateLineRend();
+                if (Creetline) CreateCommunicatiom();
                 else Creetline = true;
 
             }
@@ -56,6 +56,8 @@ public class SceneManager : MonoBehaviour
 
             if (CheckDoubleClick())
                 Destroy(gO.transform.gameObject);
+
+
         }
     }
 
@@ -69,16 +71,12 @@ public class SceneManager : MonoBehaviour
         Debug.Log("Rectangle pos: " + Rectangle.transform.position);
     }
 
-    void CreateLineRend()
+    void CreateCommunicatiom()
     {
         Debug.Log("LINE REND");
-        lineRenderer.positionCount = lineRenderer.positionCount + 2;
-        lineRenderer.SetPosition(lineRenderer.positionCount - 2, ListClick[0].transform.position);
-
-        lineRenderer.SetPosition(lineRenderer.positionCount - 1, ListClick[1].transform.position);
-
+        ListClick[0].GetComponent<RectangleView>().CreateConnection(ListClick[1]);
+        ListClick[1].GetComponent<RectangleView>().CreateConnection(ListClick[0]);
         ListClick.Clear();
-
         Creetline = false;
     }
 
