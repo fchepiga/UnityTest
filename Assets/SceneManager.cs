@@ -12,7 +12,7 @@ public class SceneManager : MonoBehaviour
     private float lastClickTime = -10f;
     RaycastHit2D gO;
     private bool wasDoubleClick;
-  bool Creetline;
+  bool Createline;
     LineRenderer lineRenderer;
     public static SceneManager Instance { get { if (instance == null) instance = FindObjectOfType<SceneManager>(); return instance; } }
     private static SceneManager instance;
@@ -37,7 +37,7 @@ public class SceneManager : MonoBehaviour
             posOrigin1 = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
 
-        if (Input.GetMouseButtonUp(0)) // если отжата левая кнопка мыши
+        if (Input.GetMouseButtonUp(0)) 
         {
             
             LineRenderer lineRenderer = GetComponent<LineRenderer>();
@@ -51,16 +51,16 @@ public class SceneManager : MonoBehaviour
                 Debug.Log("HIT");
                 ListClick.Add(gO.transform.gameObject);
 
-                Debug.Log("Creetline: " + Creetline);
-                if (Creetline) CreateCommunicatiom();
-                else Creetline = true;
+                Debug.Log("Creetline: " + Createline);
+                if (Createline) CreateCommunicatiom();
+                else Createline = true;
 
                 var difvector = posOrigin - posOrigin1;
 
-                if (Math.Abs(difvector.x) > 0.01f || Math.Abs(difvector.y) > 0.01f) //Движение объекта 
+                if (Math.Abs(difvector.x) > 0.01f || Math.Abs(difvector.y) > 0.01f) //Если изменилось положоние объекта 
                 {
                     ListClick.Clear();
-                    Creetline = false;
+                    Createline = false;
                 }
             }
             else
@@ -93,7 +93,7 @@ public class SceneManager : MonoBehaviour
             ListClick[1].GetComponent<RectangleView>().CreateConnection(ListClick[0]);
             ListClick.Clear();
         }
-        Creetline = false;
+        Createline = false;
     }
     bool CheckDoubleClick()
     {
