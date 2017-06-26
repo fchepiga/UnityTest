@@ -6,61 +6,56 @@ public class RectangleView : MonoBehaviour {
    public SpriteRenderer renderer;
     public Vector3 screenPoint;
     public Vector3 offset;
-    public Vector3 prePosition;
-    int saveindexline1 = -1;
-    int saveindexline2 = -1;
-
+    public Vector3 prePosition; 
     public Vector3 curPosition;
-    bool createdNow = true;
+ bool createdNow = true;
     LineRenderer lineRenderer;
-    public GameObject Rectangleconnected;
+  public List <GameObject> Rectangleconnected=new List<GameObject>();
     public bool block;
-
-    private int countLines;
+ 
 
 
     void Start () {
         renderer = GetComponent<SpriteRenderer>();
         renderer.color = Random.ColorHSV();
         lineRenderer = GetComponent<LineRenderer>();
+        
     }
-
     public void CreateConnection(GameObject rConnected)
     {
-        if (gameObject == rConnected || Rectangleconnected == rConnected)
+        var obj = Rectangleconnected.Find(o => o == rConnected); //Ищет объект который равен rConnected
+
+        if (gameObject == rConnected || obj!=null)
             return;
-
-        Rectangleconnected = rConnected;
-        LineRend();
-    } 
-
-    private void LineRend()
-    {       
-        lineRenderer.positionCount = lineRenderer.positionCount + 2;
-        lineRenderer.SetPosition(lineRenderer.positionCount - 2,transform.position);
-        lineRenderer.SetPosition(lineRenderer.positionCount - 1, Rectangleconnected.transform.position);
-        saveindexline1 = lineRenderer.positionCount - 2;
-        saveindexline2 = lineRenderer.positionCount - 1;
-
-     
-
+         
+       Rectangleconnected.Add (rConnected);
     }
     private void Update()
     {
-     if(saveindexline1!=-1 && saveindexline2!=-1)
+        lineRenderer.positionCount = Rectangleconnected.Count * 2; //колличество точек 
+
+        for (int i = 0; i <lineRenderer.positionCount; i++)
         {
-            lineRenderer.SetPosition(saveindexline1, transform.position);
-            lineRenderer.SetPosition(saveindexline2, Rectangleconnected.transform.position);
+            if (i == 0 || i % 2 == 0) //Проверка на четную позицию 
+            {
+                lineRenderer.SetPosition(i, transform.position);
+            }
+            else
+            {
+                if (Rectangleconnected[i / 2] == null)
+                {
+                    Rectangleconnected.RemoveAt(i / 2);   //удаление связи
+                    break;
+                }
+                lineRenderer.SetPosition(i, Rectangleconnected[i / 2].transform.position);
+            }
         }
     }
     void OnMouseDown()
     {
-       
         block = false;
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
     }
-
-
     void OnMouseDrag()
     {
         if (block) return;
@@ -69,10 +64,7 @@ public class RectangleView : MonoBehaviour {
         curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
         prePosition = gameObject.transform.position;
         transform.position = curPosition;
-
     }
-     
-
     private void OnCollisionEnter2D (Collision2D collision)
     {
         if (createdNow == false)
