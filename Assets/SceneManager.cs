@@ -1,24 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary> Проверка объектов на сцене их создание.Создание связей,проверка двойного клика</summary>
 public class SceneManager : MonoBehaviour
 {
-    private float DeltaX = 0.1f;//граница движения по X
-    private float DeltaY = 0.1f;//граница движения по Y
+    #region variables
+    /// <summary> граница движения по оси </summary>
+    private float MinDelta = 0.1f;
+    /// <summary> объект для создания </summary>
     public GameObject RectangleSpawn;
-    Vector3 posOriginEnd;//позиция куда переместили объект
-    Vector3 posOriginStart;// начальная позиция объекта
+    /// <summary>позиция куда переместили объект </summary>
+    Vector3 posOriginEnd;
+    /// <summary>начальная позиция объекта </summary>
+    Vector3 posOriginStart;
+    /// <summary> Время для двойного клика</summary
     private float doubleClickTime = 0.2f;
+    /// <summary> Время от последнего клика</summary>
     private float lastClickTime = -10f;
+    /// <summary> значение raycast</summary>
     RaycastHit2D gO;
+    /// <summary> проверка двойного клика </summary>
     private bool wasDoubleClick;
-    bool Createline;
+    /// <summary>проверка на создание линии </summary>
+    bool Createline; 
+     /// <summary> добовление lineRenderer</summary>
     LineRenderer lineRenderer;
+    /// <summary> создаваемый объект </summary>
     public static GameObject Rectangle;
+    /// <summary> Лист с объектами</summary>
     List<GameObject> ListClick = new List<GameObject>();
-  
- 
+#endregion
+
     void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -51,7 +63,7 @@ public class SceneManager : MonoBehaviour
 
                 var difvector = posOriginEnd - posOriginStart;
 
-                if (Math.Abs(difvector.x) > DeltaX || Math.Abs(difvector.y) > DeltaY) //Если изменилось положоние объекта 
+                if (Math.Abs(difvector.x) > MinDelta || Math.Abs(difvector.y) > MinDelta) //Если изменилось положоние объекта 
                 {
                     ListClick.Clear();
                     Createline = false;
@@ -70,6 +82,7 @@ public class SceneManager : MonoBehaviour
            
         }
     } 
+
     /// <summary>Добовление прямоугольника</summary>
     void SpawnRectangle()
     {

@@ -1,18 +1,30 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
-[RequireComponent(typeof(BoxCollider2D))]
-public class RectangleView : MonoBehaviour {
-   public SpriteRenderer renderer;
-    public Vector3 screenPoint;
-    public Vector3 offset;
-    public Vector3 prePosition; 
-    public Vector3 curPosition;
- bool createdNow = true;
-    LineRenderer lineRenderer;
-  public List <GameObject> Rectangleconnected=new List<GameObject>();
-    public bool block;
  
+[RequireComponent(typeof(BoxCollider2D))]//добовление объекта типа BoxCollider2D
+/// <summary> Создание лииний между объектами,drag and drop, ограничения места для создания объектов </summary>
+public class RectangleView : MonoBehaviour {
+# region variables
+    /// <summary> спрайт для объекта </summary>
+    public SpriteRenderer renderer;
+    /// <summary>Позиция по оси Z </summary>
+    public Vector3 screenPoint;
+    /// <summary> смещение объекта</summary>
+    public Vector3 offset;
+    /// <summary> предыдущая позиция </summary>
+    public Vector3 prePosition; 
+    /// <summary> Текущая позиция</summary>
+    public Vector3 curPosition;
+    /// <summary> проверка на наличее места для создания </summary>
+    bool createdNow = true;
+    /// <summary> добовление lineRenderer</summary>
+    LineRenderer lineRenderer;
+    /// <summary> лист со связями </summary>
+    public List <GameObject> Rectangleconnected=new List<GameObject>();
+    /// <summary> блокирование при движение объекта </summary>
+    public bool block;
+#endregion
 
 
     void Start () {
@@ -54,6 +66,7 @@ public class RectangleView : MonoBehaviour {
         }
     }
     /// <summary>Drag and drop </summary>
+    # region Drag and drop
     void OnMouseDown()
     {
         block = false;
@@ -69,7 +82,7 @@ public class RectangleView : MonoBehaviour {
         transform.position = curPosition;
     } 
     /// <summary> Форма объекта и ограничение пространства на создание объекта  </summary>
-   
+   #endregion
     private void OnCollisionEnter2D (Collision2D collision)
     {
         if (createdNow == false)
