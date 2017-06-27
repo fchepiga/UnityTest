@@ -29,8 +29,8 @@ public class SceneManager : MonoBehaviour
     public static GameObject Rectangle;
     /// <summary> Лист с объектами</summary>
     List<GameObject> ListClick = new List<GameObject>();
-#endregion
-
+    #endregion
+#region Unity
     void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
@@ -81,8 +81,8 @@ public class SceneManager : MonoBehaviour
             }
            
         }
-    } 
-
+    }
+#endregion
     /// <summary>Добовление прямоугольника</summary>
     void SpawnRectangle()
     {

@@ -8,21 +8,21 @@ public class RectangleView : MonoBehaviour {
 # region variables
     /// <summary> спрайт для объекта </summary>
     public SpriteRenderer renderer;
-    /// <summary>Позиция по оси Z </summary>
+    /// <summary>расстояние от центра оси до прямоугоьника </summary>
     public Vector3 screenPoint;
     /// <summary> смещение объекта</summary>
     public Vector3 offset;
-    /// <summary> предыдущая позиция </summary>
+    /// <summary> предыдущая позиция прямоугольника </summary>
     public Vector3 prePosition; 
-    /// <summary> Текущая позиция</summary>
+    /// <summary> Текущая позиция прямоугольника</summary>
     public Vector3 curPosition;
-    /// <summary> проверка на наличее места для создания </summary>
+    /// <summary> проверка на наличее места для создания пямоугольника </summary>
     bool createdNow = true;
-    /// <summary> добовление lineRenderer</summary>
+    /// <summary> Рисует линии связи</summary>
     LineRenderer lineRenderer;
     /// <summary> лист со связями </summary>
     public List <GameObject> Rectangleconnected=new List<GameObject>();
-    /// <summary> блокирование при движение объекта </summary>
+    /// <summary> блокирование при движение прямоугольника </summary>
     public bool block;
 #endregion
 
@@ -43,7 +43,7 @@ public class RectangleView : MonoBehaviour {
          
        Rectangleconnected.Add (rConnected);
     }
-    /// <summary>Создание линий между объектами </summary>
+    /// <summary>Создание линий между прямоугольниками </summary>
     private void Update()
     {
         lineRenderer.positionCount = Rectangleconnected.Count * 2; //колличество точек 
@@ -81,7 +81,7 @@ public class RectangleView : MonoBehaviour {
         prePosition = gameObject.transform.position;
         transform.position = curPosition;
     } 
-    /// <summary> Форма объекта и ограничение пространства на создание объекта  </summary>
+    /// <summary> Форма объекта и ограничение пространства на создание прямоугольника  </summary>
    #endregion
     private void OnCollisionEnter2D (Collision2D collision)
     {
@@ -90,11 +90,11 @@ public class RectangleView : MonoBehaviour {
             transform.position = prePosition;
             //Debug.Log("pos"+prePosition);позиция отката
             block = true;
-           // Debug.Log("Crah");столкновение объектов
+           // Debug.Log("Crah");столкновение прямоугольников
         }            
         if (createdNow && gameObject == SceneManager.Rectangle)
         {
-            //Debug.Log("CrahandDestroy");уничтожение если нет места для объекта
+            //Debug.Log("CrahandDestroy");уничтожение если нет места для прямоугольника
             Destroy(gameObject);
         }
     }
