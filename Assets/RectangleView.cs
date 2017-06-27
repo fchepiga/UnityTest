@@ -21,6 +21,7 @@ public class RectangleView : MonoBehaviour {
         lineRenderer = GetComponent<LineRenderer>();
         
     }
+    /// <summary> Добовление связи в лист</summary>
     public void CreateConnection(GameObject rConnected)
     {
         var obj = Rectangleconnected.Find(o => o == rConnected); //Ищет объект который равен rConnected
@@ -30,6 +31,7 @@ public class RectangleView : MonoBehaviour {
          
        Rectangleconnected.Add (rConnected);
     }
+    /// <summary>Создание линий между объектами </summary>
     private void Update()
     {
         lineRenderer.positionCount = Rectangleconnected.Count * 2; //колличество точек 
@@ -51,6 +53,7 @@ public class RectangleView : MonoBehaviour {
             }
         }
     }
+    /// <summary>Drag and drop </summary>
     void OnMouseDown()
     {
         block = false;
@@ -64,7 +67,9 @@ public class RectangleView : MonoBehaviour {
         curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
         prePosition = gameObject.transform.position;
         transform.position = curPosition;
-    }
+    } 
+    /// <summary> Форма объекта и ограничение пространства на создание объекта  </summary>
+   
     private void OnCollisionEnter2D (Collision2D collision)
     {
         if (createdNow == false)
@@ -80,7 +85,5 @@ public class RectangleView : MonoBehaviour {
             Destroy(gameObject);
         }
     }
-
-
 }
 
